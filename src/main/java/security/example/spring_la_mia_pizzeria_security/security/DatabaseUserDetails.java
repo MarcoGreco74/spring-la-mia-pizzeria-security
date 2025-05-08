@@ -20,7 +20,7 @@ public class DatabaseUserDetails implements UserDetails {
     
     private final String password;
 
-    private final List<GrantedAuthority> authorities;
+    private final List<GrantedAuthority> authorities; // Spring la usa per validare hasAuthority nel file Security
 
     public DatabaseUserDetails(User user){
         this.id = user.getId();

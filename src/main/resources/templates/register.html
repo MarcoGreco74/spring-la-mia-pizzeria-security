@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}">
+    
+</head>
+<body>
+<h1 th:text="#{Registrazione utente}"></h1>
+<form th:action="@{/register}" th:object="${user}" method="POST" enctype="utf8">
+    <ul>
+        <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+    </ul>
+    <div class="row">
+        <div class="col">
+          <input type="text" name="username"  id="username" th:field="*{username}" class="form-control" placeholder="Username" aria-label="username">
+        </div>
+        <div class="col">
+          <input type="password" name="password" id="password" th:field="*{password}" class="form-control" placeholder="Password" aria-label="password">
+        </div>
+        <div class="col">
+          <select th:field="*{role}" class="form-control">
+            <option value="" disabled selected>Seleziona un ruolo</option>
+            <option th:each="ruolo : ${roles}" th:value="${ruolo.nome}" th:text="${ruolo.nome}"></option>
+          </select>        
+        </div>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-outline-success" type="submit">Save</button>
+        <a class="btn btn-outline-dark" th:href="@{/pizzeria}">Annulla</a>
+      </div>
+</form>
+<div th:if="${errorMessage}">
+  <div th:text="${errorMessage}"></div>
+</div>
+<a th:href="@{/pizzeria}" class="btn btn-outline-success">Vai al login</a>
+<div th:replace="fragments/head :: bootstrapScript"></div>
+</body>
+</html>

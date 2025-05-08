@@ -25,10 +25,12 @@
       <div class="col d-flex p-3" sec:authorize="hasAuthority('ADMIN')">
         <button><a class="list-group-item list-group-item-action" th:href="@{/ingredienti}">Ingredienti</a></button>
       </div>
-      <div class="col-1 d-flex flex-column">
-        <small><p class="text-light" sec:authentication="name"></p></small>
-        <small><p class="text-light" sec:authentication="principal.authorities"></p></small>
+      <div class="col-3 d-flex flex-row">
+        <small class="text-light mx-2" th:text="Ciao "></small><small class="text-light" sec:authentication="name"></small>
+        <div class="d-flex flex-column">
+          <small class="text-light" sec:authentication="principal.authorities"></small>
         <a href="/logout" type="button" class="btn btn-outline-light">Logout</a>
+        </div>
       </div>
     </div>
   </div>

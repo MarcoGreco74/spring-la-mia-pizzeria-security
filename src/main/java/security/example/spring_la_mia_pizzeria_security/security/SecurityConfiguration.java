@@ -16,12 +16,14 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests()
-                .requestMatchers("/pizzeria/create", "/pizzeria/edit/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizzeria/register","/pizzeria/create", "/pizzeria/edit/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/pizzeria/**").hasAuthority("ADMIN")
                 .requestMatchers("/ingredienti", "/ingredienti/**").hasAuthority("ADMIN")
                 .requestMatchers("/pizzeria", "/pizzeria/**").hasAnyAuthority("USER", "ADMIN")
                 .requestMatchers("/**").permitAll()
+                .anyRequest().authenticated()
                 .and().formLogin()
+                .loginPage("/login")
                 .and().logout()
                 .and().exceptionHandling()
                 .and().csrf().disable();

@@ -20,9 +20,13 @@ import jakarta.validation.Valid;
 import security.example.spring_la_mia_pizzeria_security.model.Ingredienti;
 import security.example.spring_la_mia_pizzeria_security.model.OffertePizza;
 import security.example.spring_la_mia_pizzeria_security.model.Pizzeria;
+import security.example.spring_la_mia_pizzeria_security.model.UserDto;
 import security.example.spring_la_mia_pizzeria_security.repository.IngredientiPizzaRepository;
 import security.example.spring_la_mia_pizzeria_security.repository.OffertaPizzaRepository;
 import security.example.spring_la_mia_pizzeria_security.repository.PizzeriaRepository;
+import security.example.spring_la_mia_pizzeria_security.repository.RoleRepository;
+import security.example.spring_la_mia_pizzeria_security.repository.UserRepository;
+import security.example.spring_la_mia_pizzeria_security.security.UserService;
 
 
 @Controller
@@ -32,14 +36,21 @@ public class PizzeriaController {
     private PizzeriaRepository pizzeriaRepository;
     private OffertaPizzaRepository repositoryOfferta;
     private IngredientiPizzaRepository ingredientiRepository;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public PizzeriaController(PizzeriaRepository pizzeriaRepository, OffertaPizzaRepository repositoryOfferta, IngredientiPizzaRepository ingredientiRepository ){
+    public PizzeriaController(PizzeriaRepository pizzeriaRepository, OffertaPizzaRepository repositoryOfferta, IngredientiPizzaRepository ingredientiRepository, UserRepository userRepository, RoleRepository roleRepository ){
         this.pizzeriaRepository = pizzeriaRepository;
         this.repositoryOfferta = repositoryOfferta;
         this.ingredientiRepository = ingredientiRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
     
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String index(Authentication authentication, Model model, @RequestParam(value="keyword", required=false) String nome){
         List<Pizzeria> result;
@@ -128,5 +139,17 @@ public class PizzeriaController {
         model.addAttribute("editMode", false);
         return "offerte/edit";
     }
+
+    @GetMapping("/register")
+    public String register(Model model){
+        model.addAttribute("user", new UserDto());
+        model.addAttribute("roles", roleRepository.findAll());
+        return "register";
+    }
+
+    @GetMapping("/login")
+     public String loginPage() {
+     return "login"; 
+   }
 
 }
